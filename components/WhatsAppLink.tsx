@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"] as const;
 
-function buildWhatsAppUrl() {
+function buildWhatsAppUrl(): string {
   if (typeof window === "undefined") return SITE.whatsappUrl;
   const qs = new URLSearchParams(window.location.search);
   const utmText = UTM_KEYS.map((key) => (qs.get(key) ? `${key}: ${qs.get(key)}` : ""))
@@ -24,7 +24,7 @@ export function WhatsAppLink({
   children: ReactNode;
   "aria-label"?: string;
 }) {
-  const [href, setHref] = useState(SITE.whatsappUrl);
+  const [href, setHref] = useState<string>(SITE.whatsappUrl);
 
   useEffect(() => {
     setHref(buildWhatsAppUrl());
