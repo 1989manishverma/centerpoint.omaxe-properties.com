@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@/components/Analytics";
+import { JsonLd } from "@/components/JsonLd";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { SITE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -12,7 +15,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE.title,
+  title: {
+    default: SITE.title,
+    template: "%s",
+  },
   description: SITE.description,
   keywords: [...SITE.keywords],
   authors: [{ name: "Centre Point Amausi Enquiry Desk" }],
@@ -68,10 +74,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KMZ4DMTG');`,
+})(window,document,'script','dataLayer','${SITE.gtmId}');`,
           }}
         />
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-LKDQ77RLXQ" strategy="afterInteractive" />
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${SITE.gaId}`} strategy="afterInteractive" />
         <Script
           id="google-gtag"
           strategy="afterInteractive"
@@ -79,20 +85,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-LKDQ77RLXQ');`,
+gtag('config', '${SITE.gaId}');`,
           }}
         />
       </head>
       <body className={inter.className}>
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-KMZ4DMTG"
+            src={`https://www.googletagmanager.com/ns.html?id=${SITE.gtmId}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@graph": [organizationSchema, websiteSchema],
+          }}
+        />
         {children}
+        <Analytics />
       </body>
     </html>
   );

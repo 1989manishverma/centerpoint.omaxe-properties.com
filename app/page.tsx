@@ -1,23 +1,21 @@
-import type { Metadata } from "next";
 import { HomePage } from "@/components/HomePage";
+import { JsonLd } from "@/components/JsonLd";
 import { projectSchema } from "@/lib/schema";
+import { pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: SITE.title,
   description: SITE.description,
-  alternates: {
-    canonical: "/",
-  },
-};
+  path: "/",
+  ogDescription: SITE.ogDescription,
+  twitterTitle: SITE.shortName,
+});
 
 export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectSchema) }}
-      />
+      <JsonLd data={projectSchema} />
       <HomePage />
     </>
   );

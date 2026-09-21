@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { img, SITE, SITE_URL } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy | Omaxe Centre Point Amausi",
   description:
     "How Aparamous Solutions Pvt. Ltd. collects and uses information on the Omaxe Centre Point Amausi website.",
-  alternates: {
-    canonical: "/privacy",
-  },
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

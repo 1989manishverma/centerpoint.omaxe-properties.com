@@ -30,6 +30,9 @@ export const SITE = {
   leadRecipients: ["office@aparamous.com", "aparamous@gmail.com"],
   ogImage: "/img/centerpoint-aerial.webp",
   locale: "en_IN",
+  gtmId: "GTM-KMZ4DMTG",
+  gaId: "G-LKDQ77RLXQ",
+  searchConsoleFile: "/google1e6fb34f20d92b1e.html",
 } as const;
 
 export const INTEREST_OPTIONS = [
