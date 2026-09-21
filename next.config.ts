@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/investment.html", destination: "/investment", permanent: true },
+      { source: "/faqs.html", destination: "/faqs", permanent: true },
+      { source: "/get-details.html", destination: "/get-details", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

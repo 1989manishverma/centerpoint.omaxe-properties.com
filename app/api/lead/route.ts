@@ -27,6 +27,9 @@ export async function POST(request: NextRequest) {
   const mobile = cleanLine(data.mobile ?? data.phone, 40);
   const email = cleanLine(data.email, 160);
   const interest = cleanLine(data.interest ?? "Not specified", 120);
+  const budget = cleanLine(data.budget, 80);
+  const timeline = cleanLine(data.timeline, 80);
+  const message = cleanLine(data.message, 2000);
   const source = cleanLine(data.source ?? "Website", 100);
   const page = cleanLine(data.page, 300);
   const timestamp = cleanLine(data.ts ?? new Date().toISOString(), 80);
@@ -54,6 +57,9 @@ export async function POST(request: NextRequest) {
   body += `Mobile: ${mobile}\n`;
   body += `Email: ${email || "Not provided"}\n`;
   body += `Interest: ${interest}\n`;
+  if (budget) body += `Budget: ${budget}\n`;
+  if (timeline) body += `Timeline: ${timeline}\n`;
+  if (message) body += `Message: ${message}\n`;
   body += `Form source: ${source}\n`;
   body += `Page: ${page}\n`;
   body += `Submitted: ${timestamp}\n`;

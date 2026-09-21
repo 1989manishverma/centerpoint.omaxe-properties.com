@@ -40,4 +40,13 @@ export const INTEREST_OPTIONS = [
   "Site Visit",
 ] as const;
 
+export const PAGE_INTEREST_OPTIONS = [
+  "Hotel / Studio Investment",
+  "Retail Shop",
+  "12% Return Scheme Details",
+  "After Possession Hotel Lease",
+  "Price List & Payment Plan",
+  "Site Visit",
+] as const;
+
 export const img = (file: string) => `/img/${file}`;

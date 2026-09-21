@@ -1,38 +1,14 @@
 import { Gallery } from "@/components/Gallery";
 import { HeroSlider } from "@/components/HeroSlider";
 import { LeadForm } from "@/components/LeadForm";
+import { SiteShell } from "@/components/SiteChrome";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
+import { HOME_FAQS } from "@/lib/faqs";
 import { img, SITE } from "@/lib/site";
 
 export function HomePage() {
   return (
-    <>
-      <header className="nav">
-        <div className="wrap navin">
-          <a className="brand" href="#top" aria-label="Center Point Amausi">
-            <div className="brand-logos">
-              <span className="logo-badge">
-                <img className="omaxe" src={img("omaxe-logo-sharp.png")} alt="Omaxe" />
-              </span>
-              <span className="logo-badge betogether-badge">
-                <img className="betogether" src={img("betogether-logo-sharp.png")} alt="BeTogether" />
-              </span>
-            </div>
-            <div className="brandtxt">Center Point Amausi</div>
-          </a>
-          <nav className="links" aria-label="Page navigation">
-            <a href="#investment">Investment</a>
-            <a href="#location">Location</a>
-            <a href="#options">Options</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#faq">FAQs</a>
-          </nav>
-          <a className="btn btn-primary" href="#enquire">
-            Get Details
-          </a>
-        </div>
-      </header>
-
+    <SiteShell>
       <main id="top">
         <section className="hero" aria-label="Omaxe Centre Point Amausi hero">
           <HeroSlider />
@@ -54,7 +30,7 @@ export function HomePage() {
                 <span className="chip">Kanpur Road, Lucknow</span>
               </div>
               <div className="cta-row">
-                <a className="btn btn-primary" href="#enquire">
+                <a className="btn btn-primary" href="/get-details">
                   Request Price & Return Plan
                 </a>
                 <WhatsAppLink className="btn btn-ghost">WhatsApp {SITE.phoneDisplay}</WhatsAppLink>
@@ -68,7 +44,7 @@ export function HomePage() {
                 Fill the form to receive project details on the registered email desk. For quick
                 assistance, call or WhatsApp <strong>{SITE.phoneDisplay}</strong>.
               </p>
-              <LeadForm />
+              <LeadForm source="hero-enquire" />
               <div className="micro">
                 By submitting, you agree to be contacted regarding this property enquiry. No payment is
                 collected on this page. See our <a href="/privacy">Privacy Policy</a>.
@@ -226,7 +202,7 @@ export function HomePage() {
                   </div>
                 </div>
                 <div className="eco-cta">
-                  <a className="btn btn-primary" href="#enquire">
+                  <a className="btn btn-primary" href="/get-details">
                     Get Location & Investment Brief
                   </a>
                 </div>
@@ -330,61 +306,21 @@ export function HomePage() {
                 commercial terms tied to current developer documentation.
               </p>
               <div className="faq-cta">
-                <a className="btn btn-primary" href="#enquire">
+                <a className="btn btn-primary" href="/get-details">
                   Request Current Details
+                </a>
+                <a className="btn btn-ghost" href="/faqs">
+                  Read All FAQs
                 </a>
               </div>
             </div>
             <div className="faq">
-              <details open>
-                <summary>What is Omaxe Centre Point Amausi?</summary>
-                <p>
-                  It is a mixed-use commercial development in Amausi, Lucknow, marketed around retail,
-                  hospitality and studio-style investment opportunities in the Lucknow Airport
-                  corridor.
-                </p>
-              </details>
-              <details>
-                <summary>Is it a commercial property near Lucknow Airport?</summary>
-                <p>
-                  Yes. The project&apos;s central location proposition is the Amausi airport corridor,
-                  with access to the airport, Amausi Metro, Kanpur Road and the wider transit network.
-                  Exact travel time varies by route and traffic.
-                </p>
-              </details>
-              <details>
-                <summary>What is the 12% annual return for 48 months?</summary>
-                <p>
-                  A 12% annual return for 48 months is currently marketed under selected
-                  developer/payment schemes. The exact payment plan, return basis, eligibility, start
-                  date, tax treatment and payout terms should be checked in the latest developer
-                  documentation before booking.
-                </p>
-              </details>
-              <details>
-                <summary>What is the after possession hotel lease guarantee?</summary>
-                <p>
-                  Applicable hotel/studio inventory is marketed with an after possession hotel lease
-                  guarantee. The operator, lease mechanics, rent calculation, maintenance, lock-in,
-                  escalation and other conditions must be verified in the final lease/developer
-                  documents.
-                </p>
-              </details>
-              <details>
-                <summary>Are retail shops available in Amausi?</summary>
-                <p>
-                  Retail shops are currently part of the marketed product mix. Request the live
-                  inventory and price sheet because sizes, floors, locations and prices can change as
-                  units are sold.
-                </p>
-              </details>
-              <details>
-                <summary>How do I get the latest price and payment plan?</summary>
-                <p>
-                  Use the enquiry form or WhatsApp on {SITE.phoneDisplay} to request the current price
-                  sheet, return-plan documentation, available inventory and a site visit.
-                </p>
-              </details>
+              {HOME_FAQS.map((item, index) => (
+                <details key={item.q} open={index === 0}>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
             </div>
           </div>
         </section>
@@ -403,7 +339,7 @@ export function HomePage() {
                 </p>
               </div>
               <div className="cta-row">
-                <a className="btn btn-primary" href="#enquire">
+                <a className="btn btn-primary" href="/get-details">
                   Request Investment Details
                 </a>
                 <WhatsAppLink className="btn btn-ghost">WhatsApp {SITE.phoneDisplay}</WhatsAppLink>
@@ -412,55 +348,6 @@ export function HomePage() {
           </div>
         </section>
       </main>
-
-      <footer className="site-footer">
-        <div className="wrap">
-          <div className="foot">
-            <div className="footerbrand">
-              <span className="logo-badge">
-                <img className="omaxe" src={img("omaxe-logo-sharp.png")} alt="Omaxe" />
-              </span>
-              <span className="logo-badge betogether-badge">
-                <img className="betogether" src={img("betogether-logo-sharp.png")} alt="BeTogether" />
-              </span>
-            </div>
-            <div>
-              <strong>Contact</strong>
-              <br />
-              {SITE.phoneDisplay}
-              <br />
-              Project Enquiry Desk
-            </div>
-            <div>
-              <strong>Enquiry support</strong>
-              <br />
-              Call or WhatsApp for project details
-              <br />
-              <a href="/privacy">Privacy Policy</a>
-            </div>
-          </div>
-          <div className="legal">
-            <strong>Important:</strong> *The 12% annual return for 48 months and after possession hotel
-            lease guarantee are investment propositions marketed under applicable developer schemes
-            and remain subject to the current developer offer, eligibility, payment plan, allotment or
-            lease documents, availability, taxes and terms & conditions. Prospective purchasers should
-            independently verify all commercial, legal, RERA and lease documents before making a
-            purchase decision. Project specifications, pricing and inventory can change without
-            notice. Visuals on this page include conceptual or AI-generated architectural
-            representations and are for marketing illustration only. This landing page is an enquiry
-            and marketing page and is not the official developer website.
-          </div>
-        </div>
-      </footer>
-
-      <WhatsAppLink className="floatwa" aria-label="WhatsApp project desk">
-        WA
-      </WhatsAppLink>
-      <div className="mobilebar">
-        <a href={`tel:${SITE.phoneTel}`}>Call</a>
-        <WhatsAppLink>WhatsApp</WhatsAppLink>
-        <a href="#enquire">Get Details</a>
-      </div>
-    </>
+    </SiteShell>
   );
 }

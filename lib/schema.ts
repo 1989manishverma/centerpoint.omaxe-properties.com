@@ -1,4 +1,16 @@
+import { HOME_FAQS, PAGE_FAQS } from "@/lib/faqs";
 import { SITE, SITE_URL } from "@/lib/site";
+
+function faqEntities(items: readonly { q: string; a: string }[]) {
+  return items.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  }));
+}
 
 export const projectSchema = {
   "@context": "https://schema.org",
@@ -55,48 +67,16 @@ export const projectSchema = {
     {
       "@type": "FAQPage",
       "@id": `${SITE_URL}/#faq`,
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "What is Omaxe Centre Point Amausi?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Omaxe Centre Point Amausi is a mixed-use commercial development in Amausi, Lucknow, positioned around retail, hospitality and transit-led commercial demand near the airport corridor.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Is Centre Point Amausi near Lucknow Airport?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "The project is positioned in the Amausi airport corridor with access to Chaudhary Charan Singh International Airport, Amausi Metro, Kanpur Road and major city routes.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Is there a 12% annual return plan?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "A 12% annual return for 48 months is currently marketed under selected payment or developer schemes. Eligibility, payment structure and all terms are subject to the current developer scheme and documentation.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "What happens after possession?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "An after possession hotel lease guarantee is marketed for applicable hotel or studio inventory. The operating, lease, rental, eligibility and payout terms must be verified in the final developer and lease documentation.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "How can I get the current price list and payment plan?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Request the latest price list, inventory, payment plan and site visit using the enquiry form or on +91 8127777274.",
-          },
-        },
-      ],
+      mainEntity: faqEntities(HOME_FAQS),
     },
   ],
+};
+
+export const faqPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${SITE_URL}/faqs#faq`,
+  url: `${SITE_URL}/faqs`,
+  name: "Omaxe Centre Point Amausi FAQs",
+  mainEntity: faqEntities(PAGE_FAQS),
 };

@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { INTEREST_OPTIONS } from "@/lib/site";
+import { INTEREST_OPTIONS, PAGE_INTEREST_OPTIONS } from "@/lib/site";
 
 type Status = { kind: "idle" } | { kind: "ok" } | { kind: "error"; message: string };
 
-export function LeadForm() {
+type LeadFormProps = {
+  source: string;
+  variant?: "compact" | "full";
+};
+
+export function LeadForm({ source, variant = "compact" }: LeadFormProps) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [sending, setSending] = useState(false);
+  const options = variant === "full" ? PAGE_INTEREST_OPTIONS : INTEREST_OPTIONS;
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,14 +47,12 @@ export function LeadForm() {
       form.reset();
       setStatus({ kind: "ok" });
     } catch {
-      const name = String(data.name || "").trim();
-      const phone = String(data.phone || "").trim();
-      const email = String(data.email || "").trim();
-      const interest = String(data.interest || "").trim();
+      const lines = Object.entries(data)
+        .filter(([key]) => key !== "source")
+        .map(([key, value]) => `${key}: ${String(value).trim()}`)
+        .join("\n");
       const subject = encodeURIComponent("Centre Point Amausi Enquiry");
-      const body = encodeURIComponent(
-        `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nInterest: ${interest}`
-      );
+      const body = encodeURIComponent(lines);
       window.location.href = `mailto:office@aparamous.com,aparamous@gmail.com?subject=${subject}&body=${body}`;
       setStatus({
         kind: "error",
@@ -59,28 +63,65 @@ export function LeadForm() {
     }
   }
 
-  return (
-    <form className="leadform" onSubmit={onSubmit} noValidate={false}>
-      <input className="field" id="name" name="name" autoComplete="name" placeholder="Your name" required />
+  const fields = (
+    <>
+      <input className="field" name="name" autoComplete="name" placeholder="Your name" required />
       <input
         className="field"
-        id="phone"
         name="phone"
         inputMode="tel"
         autoComplete="tel"
         placeholder="Mobile / WhatsApp number"
         required
       />
-      <input className="field" id="email" name="email" type="email" autoComplete="email" placeholder="Email" required />
-      <select className="field" id="interest" name="interest" required defaultValue="">
+      <input
+        className={`field${variant === "full" ? " wide" : ""}`}
+        name="email"
+        type="email"
+        autoComplete="email"
+        placeholder={variant === "full" ? "Email address" : "Email"}
+        required
+      />
+      <select className={`field${variant === "full" ? " wide" : ""}`} name="interest" required defaultValue="">
         <option value="">I am interested in…</option>
-        {INTEREST_OPTIONS.map((option) => (
+        {options.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>
         ))}
       </select>
-      <input type="hidden" name="source" value="hero-enquire" />
+      {variant === "full" ? (
+        <>
+          <select className="field" name="budget" defaultValue="">
+            <option value="">Approx. budget (optional)</option>
+            <option>Under ₹50 Lakh</option>
+            <option>₹50 Lakh – ₹1 Crore</option>
+            <option>₹1 Crore – ₹2 Crore</option>
+            <option>₹2 Crore+</option>
+          </select>
+          <select className="field" name="timeline" defaultValue="">
+            <option value="">Buying timeline (optional)</option>
+            <option>Immediately</option>
+            <option>Within 30 days</option>
+            <option>1–3 months</option>
+            <option>Exploring</option>
+          </select>
+          <textarea
+            className="field wide"
+            name="message"
+            rows={4}
+            placeholder="Any specific question? (optional)"
+            style={{ resize: "vertical" }}
+          />
+        </>
+      ) : null}
+    </>
+  );
+
+  return (
+    <form className="leadform" onSubmit={onSubmit}>
+      {variant === "full" ? <div className="formgrid">{fields}</div> : fields}
+      <input type="hidden" name="source" value={source} />
       <button className="btn btn-primary" type="submit" disabled={sending}>
         {sending ? "Sending…" : "Send Enquiry"}
       </button>
