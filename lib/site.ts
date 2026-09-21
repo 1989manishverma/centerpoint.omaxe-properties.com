@@ -31,7 +31,6 @@ export const SITE = {
   ogImage: "/img/centerpoint-aerial.webp",
   locale: "en_IN",
   gtmId: "GTM-KMZ4DMTG",
-  gaId: "G-LKDQ77RLXQ",
   searchConsoleFile: "/google1e6fb34f20d92b1e.html",
 } as const;
 

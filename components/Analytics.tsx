@@ -2,12 +2,10 @@
 
 import { Suspense, useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { SITE } from "@/lib/site";
 
 declare global {
   interface Window {
     dataLayer?: Record<string, unknown>[];
-    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -19,8 +17,6 @@ function AnalyticsInner() {
   useEffect(() => {
     const query = searchParams.toString();
     const pagePath = query ? `${pathname}?${query}` : pathname;
-    const pageLocation = window.location.href;
-    const pageTitle = document.title;
 
     if (firstLoad.current) {
       firstLoad.current = false;
@@ -31,17 +27,9 @@ function AnalyticsInner() {
     window.dataLayer.push({
       event: "page_view",
       page_path: pagePath,
-      page_location: pageLocation,
-      page_title: pageTitle,
+      page_location: window.location.href,
+      page_title: document.title,
     });
-
-    if (typeof window.gtag === "function") {
-      window.gtag("config", SITE.gaId, {
-        page_path: pagePath,
-        page_location: pageLocation,
-        page_title: pageTitle,
-      });
-    }
   }, [pathname, searchParams]);
 
   return null;
